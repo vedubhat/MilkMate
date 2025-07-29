@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Sidebar, { SidebarItem } from "./components/SideBar";
 import { LayoutDashboard } from "lucide-react";
@@ -8,9 +6,10 @@ import { FileText, Receipt, Truck, Inbox, Mail } from "lucide-react";
 import Stat_card from './components/Stat_card'
 import { useContext } from 'react';
 import Data_table_state from './context/DataTableState';
-
+import DataTable from "./components/DataTable";
+ 
 function App() {
-  const [count, setCount] = useState(0);
+  
   const arr = [1, 2, 3, 4];
 
   return (
@@ -23,7 +22,7 @@ function App() {
           <SidebarItem icon={<Receipt size={20} />} text="Bill" />
         </Sidebar>
         
-        <div className="container" style={{display : 'flex' , flexDirection : 'column'}}>
+        <div className="container" style={{display : 'flex' , flexDirection : 'column' ,gap :  '3vh'}}>
           <div className="main">
             {
               arr.map((item) => {
@@ -31,6 +30,7 @@ function App() {
               })
             }
           </div>
+          <DataTable/>
         </div>
       </main>
     </Data_table_state>
