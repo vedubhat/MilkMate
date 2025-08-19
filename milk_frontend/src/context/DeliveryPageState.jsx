@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import delivery_page_context from './DeliveryPageContext'
-// import { MdModeEditOutline } from "react-icons/md";
+
 const DeliveryPageState = (props) => {
   const tableHead = [
     ,
@@ -9,7 +9,8 @@ const DeliveryPageState = (props) => {
     'Subscriber_id',
     'Name',
     'Quantity',
-    'Status'
+    'Status',
+    'Extra'
   ];
 
   const OriginalRows = [
@@ -18,46 +19,127 @@ const DeliveryPageState = (props) => {
       'Subscriber_id' : '5001',
       'Name' : 'Vedant Bhat',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
     },
 
     {
-      'Delivery_id' : '1001',
+      'Delivery_id' : '1002',
       'Subscriber_id' : '5001',
       'Name' : 'Sushant Bhat',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
     },
     {
-      'Delivery_id' : '1001',
+      'Delivery_id' : '1003',
       'Subscriber_id' : '5001',
       'Name' : 'Ranjan Mali',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
     },
 
     {
-      'Delivery_id' : '1001',
+      'Delivery_id' : '1004',
       'Subscriber_id' : '5001',
       'Name' : 'Virat Bhat',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
     },
 
     {
-      'Delivery_id' : '1001',
+      'Delivery_id' : '1005',
       'Subscriber_id' : '5001',
       'Name' : 'Manglu Bhat',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
     },
 
     {
-      'Delivery_id' : '1001',
+      'Delivery_id' : '1006',
       'Subscriber_id' : '5001',
       'Name' : 'Goku Bhat',
       'Quantity' : '2',
-      'Status' : 'pending'
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
+    },
+
+    {
+      'Delivery_id' : '1008',
+      'Subscriber_id' : '5001',
+      'Name' : 'Vedant Bhat',
+      'Quantity' : '2',
+      'Status' : 'pending',
+      'Extra' : '0'
     },
   ]
   const [rows , setRows] = useState(OriginalRows);
@@ -78,19 +160,38 @@ const DeliveryPageState = (props) => {
 
   const markAllDeliveries = () => {
     
-    
     setRows(rows.map((row) => {
       return {
         ...row ,
         'Status':'Delivered'
       }
     }))
-   
-    
+  }
+
+  const unmarkAllDeliveries = () => {
+     setRows(rows.map((row) => {
+      return {
+        ...row ,
+        'Status':'Pending'
+      }
+    }))
+  }
+
+  const editDelivery = (item) => {
+    setRows(rows.map((row) => {
+
+      if(item.Delivery_id == row.Delivery_id){
+        return {
+        ...item,
+        'Quantity' : item.Quantity
+        }
+      }
+      return row
+    }))
   }
 
   return (
-    <delivery_page_context.Provider value={{tableHead , rows , handleSearch , markAllDeliveries}}>
+    <delivery_page_context.Provider value={{tableHead , rows , handleSearch , markAllDeliveries , editDelivery , unmarkAllDeliveries}}>
         {props.children}
     </delivery_page_context.Provider>
   )
