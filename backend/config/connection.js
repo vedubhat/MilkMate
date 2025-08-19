@@ -1,7 +1,7 @@
 const config = require('config')
 const mongoose = require('mongoose');
 mongoose
-.connect(`${config.get("MONGODB-URI")}/milk_delivery`)
+.connect(`${config.get("ATLAS-URI")}milkmate`)
 .then(() => {
     console.log('connected');
 }).catch((err) => {
