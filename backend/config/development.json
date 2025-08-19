@@ -1,3 +1,5 @@
 {
-    "MONGODB-URI" : "mongodb://127.0.0.1:27017"
+    "MONGODB-URI" : "mongodb://127.0.0.1:27017",
+    "ATLAS-URI" : "mongodb+srv://vedusbat9:GXRMXVSOtAHvHO8Y@milkmate.vqxbv6z.mongodb.net/"
+
 }

@@ -9,7 +9,6 @@ const DataTable = () => {
     const { rows, handleNextPage, handlePrevPage } = context
 
 
-
     const handleNext = () => {
         setPage((prevPage) => prevPage + 1);
 
@@ -35,13 +34,12 @@ const DataTable = () => {
                 </thead>
 
                 <tbody>
-
                     {
                         rows.map((row) => {
                             return <tr>
-                                <td>{row.username}</td>
-                                <td>{row.email}</td>
-                                <td>{row.status}</td>
+                                <td className='dataTable_td'>{row.username}</td>
+                                <td className='dataTable_td'>{row.email}</td>
+                                <tdc className='dataTable_td'>{row.status}</tdc>
                             </tr>
                         })
                     }

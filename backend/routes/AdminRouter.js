@@ -90,8 +90,15 @@ router.delete('/delete_admin/:id', async (req, res) => {
 
 //get all admin
 router.get('/get_admin', async (req, res) => {
-    const admin = await admin_model.find();
-    return res.send(admin)
+    try {
+        
+        const admin = await admin_model.find();
+        return res.send(admin)
+    } catch (error) {
+        console.log(error);
+
+    }
+
 });
 
 
@@ -202,11 +209,13 @@ router.post('/delivered/:id', is_admin, async (req, res) => {
 
 });
 
+//marking  all the deliveries at once TODO
+
 
 //edit the delivery.
-router.post('/delete_delivery', (req, res) => {
-    
-})
+router.post('/edit_delivery/:id', (req, res) => {
+
+});
 
 //generating bill
 router.post('/generate_bill/:id', async (req, res) => {
@@ -232,7 +241,7 @@ router.post('/generate_bill/:id', async (req, res) => {
         let user_bill = await bill_model.findOne({ user_id: req.params.id, month: curr_month, year: curr_year });
         if (!user_bill) {
             user_bill = await bill_model.create({
-                user_id : req.params.id,
+                user_id: req.params.id,
                 year: curr_year,
                 month: curr_month,
                 total_litres,
@@ -263,12 +272,12 @@ router.get('/get_bills', async (req, res) => {
 
 
 //paying the bill
-router.post('/paid_bill/:id' , async (req , res) => {
+router.post('/paid_bill/:id', async (req, res) => {
     try {
         const date = new Date(Date.now());
-        const month = date.getMonth()+1;
+        const month = date.getMonth() + 1;
         const year = date.getFullYear();
-        const bill = await bill_model.findOne({user_id : req.params.id,month , year})
+        const bill = await bill_model.findOne({ user_id: req.params.id, month, year })
         bill.status = 'paid'
         await bill.save();
         return res.send(bill);
@@ -279,6 +288,13 @@ router.post('/paid_bill/:id' , async (req , res) => {
 
 
 
+router.get('/health_check', (req, res) => {
+    try {
+        return res.send("req sent");
+    } catch (error) {
+
+    }
+})
 
 
 
