@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const admin_model = require('../models/Admin_Model');
 const user_model = require('../models/User_Model');
 const subscription_model = require('../models/Subscription_model')
@@ -8,6 +8,7 @@ const { generateToken } = require('../utils/generate_token');
 const { is_admin } = require('../middlewares/Is_admin');
 const delivery_model = require('../models/Delivery_model');
 const bill_model = require('../models/Bill_model');
+const request_model = require('../models/Request_Model')
 const router = express.Router();
 
 router.get('/', is_admin, (req, res) => {
@@ -194,7 +195,6 @@ router.get('/get_delivery', is_admin, async (req, res) => {
 
 
 
-
 //marking as delivered
 router.post('/delivered/:id', is_admin, async (req, res) => {
 
@@ -209,12 +209,18 @@ router.post('/delivered/:id', is_admin, async (req, res) => {
 
 });
 
-//marking  all the deliveries at once TODO
-
 
 //edit the delivery.
-router.post('/edit_delivery/:id', (req, res) => {
-
+router.post('/edit_delivery/:id',async (req, res) => {
+    const {quantity} = req.body
+    try {
+        const delivery = await delivery_model.findOne({_id : req.params.id});
+        delivery.quantity = quantity
+        await delivery.save();
+        return res.send(delivery);
+    } catch (error) {
+        return res.send(error.message)
+    }
 });
 
 //generating bill
@@ -286,6 +292,17 @@ router.post('/paid_bill/:id', async (req, res) => {
     }
 });
 
+//getting all the requests.
+router.get('/get_requests', is_admin ,async (req  ,res) => {
+    try {
+        const requests = await request_model.find({Status : 'Pending'});
+        if(!requests)return res.status(200).send('No pending requests!');
+        return res.status(200).send(requests);
+        
+    } catch (error) {
+        return res.send(error.message)
+    }
+})
 
 
 router.get('/health_check', (req, res) => {
@@ -294,7 +311,7 @@ router.get('/health_check', (req, res) => {
     } catch (error) {
 
     }
-})
+});
 
 
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const user_model = require('../models/User_Model')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { generateToken } = require('../utils/generate_token')
 const { is_loggedIn } = require('../middlewares/is_loggedIn');
 const bill_model = require('../models/Bill_model');
-const subscription_model = require('../models/Subscription_model')
+const subscription_model = require('../models/Subscription_model');
+const request_model = require('../models/Request_Model');
 router.get('/', (req, res) => {
     return res.send('welcome user');
 });
@@ -72,6 +73,7 @@ router.put('/update_password/:id', is_loggedIn, async (req, res) => {
     }
 });
 
+//get user bill
 router.get('/get_bill/:id', is_loggedIn, async (req, res) => {
     let curr_date = new Date(Date.now());
     let month = curr_date.getMonth() + 1;
@@ -97,7 +99,25 @@ router.post('/change_sub_status/:id', async (req, res) => {
         return res.send(error.message)
     }
 
-})
+});
+
+//create a new request.
+router.post('/new_request' , is_loggedIn ,async (req , res) => {
+    const {email ,des} = req.body;
+    try {
+        const user = await user_model.findOne({email})
+        const new_request = await request_model.create({
+            subscriber_id : user._id,
+            email,
+            description :des,
+            Status : "Pending"
+        });
+        return res.send(new_request);
+    } catch (error) {
+        return res.send(error.message);
+    }
+});
+
 
 
 module.exports = router;
